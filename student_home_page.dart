@@ -1,0 +1,84 @@
+import 'package:flutter/material.dart';
+import 'joined_rooms_list_page.dart';
+//import 'join_room_page.dart';
+import 'make_schedule_page.dart';
+import 'social_media_management_page.dart';
+
+class StudentHomePage extends StatefulWidget {
+  const StudentHomePage({Key? key}) : super(key: key);
+
+  @override
+  _StudentHomePageState createState() => _StudentHomePageState();
+}
+
+class _StudentHomePageState extends State<StudentHomePage> {
+  List<String> joinedRooms = []; // Persistent list of joined rooms
+
+  void _navigateToJoinedRooms() async {
+    final updatedRooms = await Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => JoinedRoomsListPage(joinedRooms: joinedRooms),
+      ),
+    );
+
+    if (updatedRooms != null && updatedRooms is List<String>) {
+      setState(() {
+        joinedRooms = updatedRooms; // Update the list after returning
+      });
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("Student Home"),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.account_circle),
+            onPressed: () {
+              // Handle profile navigation
+            },
+          ),
+        ],
+      ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            ElevatedButton(
+              onPressed: _navigateToJoinedRooms,
+              child: const Text("Join a Room"),
+            ),
+            const SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const MakeSchedulePage()),
+                );
+              },
+              child: const Text('Make Schedules'),
+            ),
+            const SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const SocialMediaManagementPage()),
+                );
+              },
+              child: const Text('Manage Social Media'),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+
+
+
+
