@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'joined_rooms_list_page.dart';
-//import 'join_room_page.dart';
 import 'make_schedule_page.dart';
 import 'social_media_management_page.dart';
+import 'public_announcements.dart'; // ✅ Import Public Announcements Page
 
 class StudentHomePage extends StatefulWidget {
   const StudentHomePage({Key? key}) : super(key: key);
@@ -70,6 +70,18 @@ class _StudentHomePageState extends State<StudentHomePage> {
                 );
               },
               child: const Text('Manage Social Media'),
+            ),
+            const SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => PublicAnnouncementsPage(isStudent: true),
+                  ),
+                );
+              },
+              child: const Text("Public Announcements"), // ✅ New Button
             ),
           ],
         ),
