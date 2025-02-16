@@ -3,6 +3,7 @@ import 'dart:math';
 import 'created_rooms_list_page.dart';
 import 'make_schedule_page.dart';
 import 'social_media_management_page.dart';
+import 'public_announcements.dart'; 
 
 class OrganizerHomePage extends StatefulWidget {
   const OrganizerHomePage({Key? key}) : super(key: key);
@@ -73,9 +74,7 @@ class _OrganizerHomePageState extends State<OrganizerHomePage> {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => CreatedRoomsListPage(
-          rooms: createdRooms, // ✅ Pass the list directly
-        ),
+        builder: (context) => CreatedRoomsListPage(rooms: createdRooms),
       ),
     );
   }
@@ -91,6 +90,13 @@ class _OrganizerHomePageState extends State<OrganizerHomePage> {
     Navigator.push(
       context,
       MaterialPageRoute(builder: (context) => const SocialMediaManagementPage()),
+    );
+  }
+
+  void _navigateToPublicAnnouncements() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => const PublicAnnouncementsPage(isStudent: false,)), // ✅ Navigate to Public Announcements
     );
   }
 
@@ -121,12 +127,18 @@ class _OrganizerHomePageState extends State<OrganizerHomePage> {
               onPressed: _navigateToSocialMedia,
               child: const Text("Manage Social Media"),
             ),
+            const SizedBox(height: 20),
+            ElevatedButton( // ✅ New Public Announcements Button
+              onPressed: _navigateToPublicAnnouncements,
+              child: const Text("Public Announcements"),
+            ),
           ],
         ),
       ),
     );
   }
 }
+
 
 
 
