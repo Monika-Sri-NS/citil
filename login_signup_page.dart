@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'student_details_page.dart';
 import 'organizer_details_page.dart';
 import 'student_home_page.dart';
-import 'organizer_home_page.dart'; // ✅ Import OrganizerHomePage
+import 'organizer_home_page.dart';
 
 class LoginSignupPage extends StatefulWidget {
   const LoginSignupPage({Key? key}) : super(key: key);
@@ -12,8 +12,8 @@ class LoginSignupPage extends StatefulWidget {
 }
 
 class _LoginSignupPageState extends State<LoginSignupPage> {
-  String? userType;  // Student or Organizer
-  String? actionType; // Login or Sign Up
+  String? userType;  // "Student" or "Organizer"
+  String? actionType; // "Login" or "Sign Up"
 
   void _selectUserType() {
     showDialog(
@@ -26,11 +26,7 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
               onPressed: () {
                 setState(() => userType = 'Student');
                 Navigator.pop(context);
-                if (actionType == 'Sign Up') {
-                  _askEmailAndPassword();
-                } else {
-                  _navigateToNext();
-                }
+                _askEmailAndPassword(); // ✅ Always ask for email & password first
               },
               child: const Text("Student"),
             ),
@@ -38,11 +34,7 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
               onPressed: () {
                 setState(() => userType = 'Organizer');
                 Navigator.pop(context);
-                if (actionType == 'Sign Up') {
-                  _askEmailAndPassword();
-                } else {
-                  _navigateToNext();
-                }
+                _askEmailAndPassword(); // ✅ Always ask for email & password first
               },
               child: const Text("Organizer"),
             ),
@@ -63,7 +55,7 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
         return StatefulBuilder(
           builder: (context, setState) {
             return AlertDialog(
-              title: const Text("Enter Email & Password"),
+              title: Text(actionType == 'Sign Up' ? "Create Account" : "Login"),
               content: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
@@ -98,8 +90,8 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
                       return;
                     }
 
-                    Navigator.pop(context);
-                    _navigateToNext();
+                    Navigator.pop(context); // Close dialog
+                    _navigateToNext(); // ✅ Proceed to details page or home page
                   },
                   child: const Text("Continue"),
                 ),
@@ -112,7 +104,8 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
   }
 
   void _navigateToNext() {
-    if (actionType == 'Login') {
+    if (actionType == 'Sign Up') {
+      // ✅ Go to details page after email & password are entered
       if (userType == 'Student') {
         Navigator.push(
           context,
@@ -125,7 +118,7 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
         );
       }
     } else {
-      // ✅ Fix: Navigate to the correct homepage after sign-up
+      // ✅ Go directly to homepage after Login
       if (userType == 'Student') {
         Navigator.push(
           context,
@@ -149,22 +142,22 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
           children: [
             const Icon(Icons.account_circle, size: 80, color: Colors.grey),
             const SizedBox(height: 20),
-            const Text("Already have an account?", style: TextStyle(fontSize: 16)),
-            ElevatedButton(
-              onPressed: () {
-                setState(() => actionType = 'Login');
-                _selectUserType();
-              },
-              child: const Text("Login"),
-            ),
-            const SizedBox(height: 20),
             const Text("New here? Create an account", style: TextStyle(fontSize: 16)),
             ElevatedButton(
               onPressed: () {
                 setState(() => actionType = 'Sign Up');
-                _selectUserType();
+                _selectUserType(); // ✅ Ask for account type first
               },
               child: const Text("Sign Up"),
+            ),
+            const SizedBox(height: 20),
+            const Text("Already have an account?", style: TextStyle(fontSize: 16)),
+            ElevatedButton(
+              onPressed: () {
+                setState(() => actionType = 'Login');
+                _selectUserType(); // ✅ Ask for account type first
+              },
+              child: const Text("Login"),
             ),
           ],
         ),
